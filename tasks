@@ -1,0 +1,88 @@
+--OrdersView--
+
+create view OrdersView as 
+select OrderId, Quantity,TotalCost
+from Orders where quantity >2;
+
+--CustomTableInfo--
+
+with
+ct1 as (select M.MenuId, M.MenuName, I.Course, I.Starter from Menu as M inner join MenuItems as I on M.ItemsId = I.MenuItemsId),
+ct2 as (select C.CustomerId, concat(C.FirstName," ",C.LastName) as Name, O.OrderId, O.TotalCost, O.OrderedMenu from Customers as C inner join Orders as O on C.CustomerId = O.CustomerId)
+select ct2.CustomerId, ct2.Name, ct2.OrderId, ct2.TotalCost, ct1.MenuName, ct1.Course, ct1.Starter
+from ct1 inner join ct2
+on ct1.MenuId = ct2.OrderedMenu
+where ct2.TotalCost > 150;
+
+--ItemsOrderedMoreThanTwoTimes--
+
+select MenuName from Menu where MenuId in(select MenuId from Orders where Quantity > 2);
+
+--GetMaxQuantity procedure--
+
+create procedure GetMaxQuantity()
+select max(quantity) from Orders;
+
+--CancelOrder procedure--
+
+delimiter //
+
+create procedure CancelOrder(in id int)
+begin
+	delete from Deliveries where OrderId = id;
+	delete from Orders where OrderId = id;
+	select concat('Order ',id,' has been cancelled') as Confirmation;
+end//
+
+delimiter ;
+
+--GetOrderDetail statement--
+
+prepare GetOrderDetail from 'select OrderId, Quantity, TotalCost from Orders where OrderId = ?';
+
+--CheckBooking procedure--
+
+delimiter //
+
+create procedure CheckBooking(in data datetime, in tableNum int)
+begin
+	set @a = ifnull((select BookingID from Bookings where Date = data and TableNumber = tableNum limit 1),'empty');
+	set @b = 'Table '+tableNum+' ';
+	if @a = 'empty'
+		then
+			select 'table is available' as BookingStatus;
+	else
+		select 'table is not available' as BookingStatus;
+	end if;
+end //
+
+delimiter ;
+
+--AddValidBooking procedure--
+
+delimiter //
+
+create procedure AddValidBooking(in Customer int, in TableNum int, in data datetime, in employee int)
+begin
+	
+	start transaction;
+	set @a = ifnull((select BookingID from Bookings where Date = data and TableNumber = TableNum limit 1),'empty');
+	
+	if @a = 'empty'
+	then 
+		insert into Bookings(TableNumber,CustomerId,Date,EmployeeId) values(TableNum,Customer,data,employee);
+		select 'table is available - booking added' as Status;
+		commit;
+	else
+		select 'tables is already booked - booking cancelled' as Status;
+		rollback;
+	end if;	
+end //
+
+delimiter ;
+
+
+
+
+
+

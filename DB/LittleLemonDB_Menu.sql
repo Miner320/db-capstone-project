@@ -23,12 +23,13 @@ DROP TABLE IF EXISTS `Menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Menu` (
-  `ItemId` int NOT NULL,
-  `ItemType` varchar(20) NOT NULL,
-  `ItemName` varchar(20) NOT NULL,
+  `MenuID` int NOT NULL AUTO_INCREMENT,
+  `MenuName` varchar(20) NOT NULL,
   `Cuisine` varchar(20) NOT NULL,
-  `Price` float NOT NULL,
-  PRIMARY KEY (`ItemId`)
+  `ItemsID` int NOT NULL,
+  PRIMARY KEY (`MenuID`),
+  KEY `Items_idx` (`ItemsID`),
+  CONSTRAINT `Items` FOREIGN KEY (`ItemsID`) REFERENCES `MenuItems` (`MenuItemsId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-31 14:14:27
+-- Dump completed on 2024-10-31 21:22:08

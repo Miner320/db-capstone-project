@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `Employees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Employees` (
-  `EmployeeId` int NOT NULL,
+  `EmployeeId` int NOT NULL AUTO_INCREMENT,
   `Salary` float NOT NULL,
   `Role` varchar(20) NOT NULL,
   `FirstName` varchar(15) NOT NULL,
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-31 14:14:27
+-- Dump completed on 2024-10-31 21:22:08

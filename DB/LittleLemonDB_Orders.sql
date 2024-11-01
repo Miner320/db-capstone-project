@@ -23,16 +23,17 @@ DROP TABLE IF EXISTS `Orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Orders` (
-  `OrderId` int NOT NULL,
+  `OrderId` int NOT NULL AUTO_INCREMENT,
   `CustomerId` int NOT NULL,
   `OrderDate` datetime NOT NULL,
-  `OrderedItem` int NOT NULL,
+  `OrderedMenu` int NOT NULL,
   `Quantity` tinyint DEFAULT NULL,
+  `TotalCost` float DEFAULT NULL,
   PRIMARY KEY (`OrderId`),
   KEY `Customer_idx` (`CustomerId`),
-  KEY `Item_idx` (`OrderedItem`),
+  KEY `MenuID_idx` (`OrderedMenu`),
   CONSTRAINT `CustomerID` FOREIGN KEY (`CustomerId`) REFERENCES `Customers` (`CustomerId`),
-  CONSTRAINT `Item` FOREIGN KEY (`OrderedItem`) REFERENCES `Menu` (`ItemId`)
+  CONSTRAINT `MenuID` FOREIGN KEY (`OrderedMenu`) REFERENCES `Menu` (`MenuID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-31 14:14:27
+-- Dump completed on 2024-10-31 21:22:08
