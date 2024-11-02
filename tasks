@@ -81,6 +81,20 @@ end //
 
 delimiter ;
 
+--AddBooking procedure
+
+create procedure AddBooking(in Customer int,in Employee int,in tablea int,in time datetime)
+insert into Bookings(CustomerId,EmployeeId,TableNum,Date) values(Customer,Employee,tablea,time);
+
+--UpdateBooking procedure--
+
+create procedure UpdateBooking(in id int, in time datetime)
+update Bookings set Date = time where BookingId = id;
+
+--CancelBooking procedure--
+
+create procedure CancelBooking(in id int)
+delete from Bookings where BookingId = id;
 
 
 
